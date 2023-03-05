@@ -7,16 +7,15 @@ class A {}
 //class with a primary constructor
 class SomePerson constructor(firstName: String) { /*...*/ }
 
-//same class using a secondary constructor
+//it can be written in this way as well if the constructor has no visibility modifiers
+//class Person(firstName: String) { /*...*/ }
 
+//same class using a secondary constructor
 //class Person {
 //    constructor(firstName: String) {}
 //
 //}
 
-
-//it can be written in this way as well if the constructor has no visibility modifiers
-//class Person(firstName: String) { /*...*/ }
 
 //a primary constructor can't contain any code, if you want any initialization code
 //then it can be placed in the init block
@@ -128,9 +127,11 @@ class SomeClass {
     }
 
     fun initializeLate() {
+        //the :: operator is called the "member reference" operator
         if (this::late.isInitialized) {
             println("late has been initialized")
         } else {
+            //println("Member reference ${this::late}")
             println("late has not been initialized")
         }
         late = "late property"
@@ -178,6 +179,12 @@ class Mobile : PlayMusic {
     }
 }
 
+class Laptop : PlayMusic {
+    override fun play() {
+        println("Playing music from spotify desktop app...")
+    }
+}
+
 interface X {
     fun bar() {
         println("barfoo")
@@ -195,13 +202,6 @@ class Z : X, Y {
         super<X>.bar()
         super<Y>.bar()
         //your own implementation
-    }
-}
-
-
-class Laptop : PlayMusic {
-    override fun play() {
-        println("Playing music from spotify desktop app...")
     }
 }
 
@@ -258,6 +258,7 @@ fun main() {
     println(r.tag) //Updated New Rectangle
     //Read more at: https://kotlinlang.org/docs/properties.html
 
+    //lateinit in kotlin
     val late = SomeClass()
     late.initializeLate()
 
@@ -332,14 +333,14 @@ fun main() {
     //eg.
 
     val message = Messenger { println("Recd. msg: $it") }
-
+    message.message("Hello!")
     //longer version
 //    val message = object : Messenger {
 //        override fun message(msg: String) {
 //            TODO("Not yet implemented")
 //        }
 //    }
-    message.message("Hello!")
+
 
     //Read more here: https://kotlinlang.org/docs/fun-interfaces.html
 
@@ -356,6 +357,7 @@ fun main() {
     //11.9) data classes
     //Read more at:https://kotlinlang.org/docs/data-classes.html
     //Read this too:https://kotlinlang.org/docs/equality.html
+    //good answers: https://stackoverflow.com/questions/51340603/what-is-difference-between-and-in-kotlin
 
     //if we want a class just to hold data
     //for eg. lets say we have a list of users for a website
@@ -402,6 +404,9 @@ fun main() {
 
     //11.12 this
     //Read: https://kotlinlang.org/docs/this-expressions.html
+
+    //12 Exception handling in kotlin
+    //https://kotlinlang.org/docs/exceptions.html
 }
 
 fun MutableList<Int>.swap(index1: Int, index2: Int) {
@@ -410,3 +415,20 @@ fun MutableList<Int>.swap(index1: Int, index2: Int) {
     this[index2] = tmp
 }
 
+//member reference operator
+/*
+lass Person(val name: String) {
+    fun sayHello() {
+        println("Hello, my name is $name.")
+    }
+}
+
+fun main() {
+    val person = Person("John")
+    val helloFunction = person::sayHello
+    helloFunction() // prints "Hello, my name is John."
+}
+*/
+
+//val ref = String::compareTo
+//    println(ref("abc", "abc"))

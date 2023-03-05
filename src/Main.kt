@@ -1,58 +1,60 @@
 // 1) Main function in kotlin
 
 /*
-The main() function in Kotlin is the entry point to a Kotlin program.
-Kotlin supports both procedural programming and object oriented programming.
-
+- The main() function in Kotlin is the entry point to a Kotlin program.
+- Kotlin supports both procedural programming and object oriented programming.Hence
+it does enforce OOP like Java
 Read more at:  https://www.tutorialkart.com/kotlin/main-function-in-kotlin/
 */
-
+//------------------------
 //var nullableStr: String? = "abc"
 fun main() {
     // 2) Hello World in kotlin
-
-    println("Hello, World!")
-    print("Hello Again!")
+    println("Hello, World!")//prints a line after printing the message
+    print("Hello Again!")//does not print a line
     println()
-    // 3) Variables and data types in kotlin
+    //------------------
 
+    // 3) Variables and data types in kotlin
     // 3.1) variables in kotlin - val vs var
 
     /*
-   Read-only local variables are defined using the keyword val. They can be assigned a value only once.
-   Variables that can be reassigned use the var keyword.
-
-   Read more at: https://kotlinlang.org/docs/basic-syntax.html#variables
+    - Read-only local variables are defined using the keyword val. They can be assigned a value only once.
+    - Variables that can be reassigned use the var keyword.
    */
 
     val a: Int = 1  // immediate assignment
     // a=5  gives an compile time error
     val b = 1 //type not explicitly mentioned, but inferred
-
     var c = 10
     c = 20 //re-assignment is allowed in case of var
 
+    //note: don't use var unless you totally need to change the value of a variable in some
+    //future operation
+
+    //-----------------
+
     /* c=20.0 however Kotlin is a statically typed language hence this will give a compile time error
     because we are assigning a floating type to an Int which is not allowed! */
-
     /*
     variables can also be assigned at the top
     */
 
+    //Read more at: https://kotlinlang.org/docs/basic-syntax.html#variables
+
     // 3.2) data types in kotlin
 
     /*
-    In Kotlin, everything is an object
+    - In Kotlin, everything is an object
     Read more at: https://kotlinlang.org/docs/basic-types.html
     */
 
     //kotlin Numbers - range table https://kotlinlang.org/docs/numbers.html#integer-types
-    val one = 1 //inferred as Int automatically
-    val threeBillion = 3000000000 // inferred as Long as it exceeds Int range
+    val one: Int = 1 //inferred as Int automatically
+    val threeBillion: Long = 3000000000 // inferred as Long as it exceeds Int range
     val oneLong = 1L // L means Long
-    val pi = 3.14 //inferred as Double
-    val piFloat = 3.14f //inferred as Float as f means Float
-
+    val pi: Double = 3.14 //inferred as Double
+    val piFloat: Float = 3.14f //inferred as Float as f means Float
 //You can check unsigned types here: https://kotlinlang.org/docs/unsigned-integer-types.html
 
     /*
@@ -66,7 +68,7 @@ fun main() {
 
     //kotlin Characters
     val d = 'a'
-    val newLine = '\n'
+    val newLine = '\n'//escape sequence
 
     //kotlin Strings
 
@@ -77,8 +79,9 @@ fun main() {
 
     val str = "Whats up!"
     println(str)
+    println(str.length)//length of string
     //you can access String like an array for eg:
-    //str[2]='q' compile error
+    //str[2]='q' compile error, bcoz immutable
     println(str[2]) //prints a
     val str2 = "abcd"
     println(str + str2) //string concat operation
@@ -88,30 +91,32 @@ fun main() {
     /*
     Read more at: https://kotlinlang.org/docs/arrays.html
     */
-    val anyArr = arrayOf(1, 2, 'a', "Hello", true) //array with type 'Any'
-    val integerArr = arrayOf<Int>(1, 2, 3) // array with type 'Integer'
+    val anyArr = arrayOf(1, 2, 'a', "Hello", true) //array with type Array<{Comparable*> & java.io.Serializable}>
     println(anyArr.contentToString())
+
     //primitive type arrays
     val intArr: IntArray = intArrayOf(1, 2, 3) //array of Ints (Java int[])
     val arr = IntArray(5) //array of size 5 with default value i.e 0
     val arr2 = IntArray(5) { 42 } //array with all values initialized to 42
     println(intArr.contentToString())
+
+    //non-primitive type arrays
+    //non-primitive types,map to Java objects and are references
+    val integerArr: Array<Int> = arrayOf<Int>(1, 2, 3) // array with type 'Integer'(java)
+
     //Read this:https://stackoverflow.com/questions/45090808/intarray-vs-arrayint-in-kotlin
     //Read this: https://stackoverflow.com/questions/35253368/how-can-i-create-an-array-in-kotlin-like-in-java-by-just-providing-a-size
 
     //kotlin Collections
-
     //A collection usually contains a number of objects (this number may also be zero) of the same type
-    //non-primitive types,map to Java objects and are references
-
     //Read more at: https://kotlinlang.org/docs/collections-overview.html
 
     //List
     //immutable list, doesn't allow you to add/remove/update
-    val immutableList = listOf("John", "Doe", "Roe")
-
+    //you should use an immutable list, if you don't plan to update it
+    val immutableList: List<String> = listOf("John", "Doe", "Roe")
     //mutable list, add allowed
-    val mutableList = mutableListOf<String>()//empty list requires a generic
+    val mutableList: MutableList<String> = mutableListOf<String>()//empty list requires a generic
     mutableList.add("Yu")
     mutableList.add("uu")
 
@@ -124,6 +129,7 @@ fun main() {
     //numbersMap["key1"]=2 compile time error!
     println("All keys: ${numbersMap.keys}")
     println("All values: ${numbersMap.values}")
+
     if ("key2" in numbersMap) println("Value by key \"key2\": ${numbersMap["key2"]}")
     if (1 in numbersMap.values) println("The value 1 is in the map")
     if (numbersMap.containsValue(1)) println("The value 1 is in the map") // same as previous
@@ -145,11 +151,12 @@ fun main() {
     //is operator
     //is operator is used to check if an object is of the given type or not
     val str3 = "Hello"
+    val anyStr: Any = 100
     println(str3 is String) //true
+    println(anyStr is String)//false
 
     //explicit type casting
     val strAny: Any = "A string"
-
     //unsafe cast, will throw an exception if strAny has type other
     //than a String
     //val strUnsafeCasted: String = strAny as String
@@ -158,7 +165,8 @@ fun main() {
     val strSafeCasted: String? = strAny as? String
     println("strSafeCasted: $strSafeCasted")
 
-    //smart casts
+    //smart casts - kotlin magic
+    //3 conditions
     var anyObj: Any = "Some string"
 
     // anyObj.length - here our type is still 'Any', so we can't access .length property
@@ -172,11 +180,11 @@ fun main() {
 
     // 4) Conditional expression in kotlin
 
-    // 4.1) if expression
+    // 4.1) if
     var num1 = 10
     var num2 = 11
 
-    //if-else
+    //if statement
     var max = 0
 
     if (num1 < num2) {
@@ -185,14 +193,11 @@ fun main() {
         max = num1
     }
     num2 = 12
+
     //or we can use it as a ternary type expression!
     max = if (num1 < num2) num2 else num1
 
     println(max)
-
-    // You can also use `else if` in expressions!
-    val maxLimit = 1
-    val maxOrLimit = if (maxLimit > num1) maxLimit else if (num1 > num2) num1 else num2
 
     //more examples here: https://kotlinlang.org/docs/control-flow.html#if-expression
 
@@ -212,11 +217,13 @@ fun main() {
     println()
     //More amazing examples here: https://kotlinlang.org/docs/control-flow.html#when-expression
 
+
     //5) Looping in kotlin
 
     // 5.1) for loop
     //1..5 is a Range, both nos. are inclusive
     //below code prints 1 2 3 4 5
+
     for (i in 1..5) {
         print("$i ")
     }
@@ -236,11 +243,6 @@ fun main() {
         print("$num ") //prints 1 4 3 9 100 98 54
     }
 
-    println()
-
-    for (i in intArr2.indices) {
-        print("${intArr2[i]}, ") //prints 1, 4, 3, 9, 100, 98, 54,
-    }
     println()
     //for more details: https://kotlinlang.org/docs/control-flow.html#for-loops
 
@@ -360,20 +362,18 @@ fun main() {
 
     //nullableStr.length
 
-    //dealt with it but in case it was a top level variable/instance variable this won't work!
-    //as it could have been modified
-    //dealing with nullable types
-    //null check
-
-    val nullVal = null
-
-    println(nullVal == null)//true
+    //dealt with it
 
     if (nullableStr != null && nullableStr.isNotEmpty()) {
         println("String of length ${nullableStr.length}")
     } else {
         println("Empty string")
     }
+
+    //but in case it was a top level variable/instance variable this won't work!
+    //    //as it could have been modified
+    //    //dealing with nullable types
+    //    //null check
 
     // the safe call operator
 
@@ -407,6 +407,7 @@ fun main() {
     display(10) //prints 10
     println(add(10, 12)) //22
     println(add())//11
+    //single expression function
     println(double(8))//16
     //if a default parameter precedes a parameter with no default value,
     // the default value can only be used by calling the function with named arguments:
@@ -465,13 +466,16 @@ fun main() {
     //doing the same using an anonymous function f
     println(numbers.filter(f))
 
-    //note:
-    // in a lambda function last statement is the return type,
-    // while in a anonymous function we need to explicitly return a value
+    val myArr = arrayOf(1, 2, -1, -3, 0, 4, 7)
 
+    println(customFilter(myArr, { it > 0 }))
+
+    //note:
+    // in a lambda function last statement is the return type, explicit returns are not allowed
+    // while in a anonymous function we need to explicitly return a value
     //a lambda function too can access its closure
 
-    /*
+    /*note:
     According to Kotlin convention, if the last parameter of a function is a function,
     then a lambda expression passed as the corresponding argument can
     be placed outside the parentheses
@@ -483,6 +487,12 @@ fun main() {
     //Read: https://www.geeksforgeeks.org/kotlin-inline-functions/
     //and: https://kotlinlang.org/docs/inline-functions.html
 
+    //inline function to demonstrate return
+    someInlineFunction(10, {
+        println("Hello I am func1")
+        return
+    }, { println("Hello I am func2") }
+    )
 
 }
 
@@ -528,5 +538,25 @@ fun xyz() {
 //an anonymous fun has no name
 val f = fun(i: Int): Boolean {
     return i > 0
+}
+
+//custom implementation of the filter function
+fun customFilter(arr: Array<Int>, func: (Int) -> Boolean): MutableList<Int> {
+    val filtered = mutableListOf<Int>()
+    for (num in arr) {
+        if (func(num)) {
+            filtered.add(2 * num)
+        }
+    }
+
+    return filtered;
+}
+
+//an inline function in kotlin
+inline fun someInlineFunction(num: Int, func1: () -> Unit, func2: () -> Unit) {
+    //func1 executes and returns from the function
+    func1()
+    //func2 won't execute
+    func2()
 }
 
